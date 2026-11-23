@@ -1,0 +1,27 @@
+Compiling 5 files with Solc 0.8.33
+Solc 0.8.33 finished in 1.16s
+Compiler run successful!
+
+--- stderr ---
+note[unwrapped-modifier-logic]: wrap modifier logic to reduce code size
+  --> src/DonationVault.sol:47:5
+   |
+47 | /     modifier onlyOwner() {
+48 | |         require(msg.sender == owner, "Not owner");
+49 | |         _;
+50 | |     }
+   | |_____^
+   |
+help: wrap modifier logic to reduce code size
+   |
+47 ~     modifier onlyOwner() {
+48 +         _onlyOwner();
+49 +         _;
+50 +     }
+51 + 
+52 +     function _onlyOwner() internal {
+53 +         require(msg.sender == owner, "Not owner");
+54 +     }
+   |
+   = help: https://book.getfoundry.sh/reference/forge/forge-lint#unwrapped-modifier-logic
+

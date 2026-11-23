@@ -1,0 +1,9 @@
+
+Detector: reentrancy-events
+Reentrancy in DonationVault.withdraw(uint256) (src/DonationVault.sol#73-105):
+	External calls:
+	- (sent,None) = address(msg.sender).call{value: amount}() (src/DonationVault.sol#102)
+	Event emitted after the call(s):
+	- Withdraw(msg.sender,amount) (src/DonationVault.sol#104)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-4
+. analyzed (4 contracts with 5 detectors), 1 result(s) found

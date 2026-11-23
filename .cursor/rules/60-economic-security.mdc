@@ -1,0 +1,24 @@
+---
+description: Economic and game-theoretic security analysis — when working on pricing, fees, incentives, liquidations, auctions, AMMs, or any value-bearing mechanism
+alwaysApply: false
+---
+
+# Economic security
+
+Applies when `features.has_economic_mechanism: true` (see SEC-ECON-001).
+
+- Model the attacker with unbounded intra-transaction capital (flashloans) and
+  transaction-ordering power (MEV). Ask of every mechanism: can capital scale
+  turn a rounding, pricing, or timing edge into profit?
+- Standard scrutiny list: share-price inflation (first depositor, donations),
+  oracle/AMM spot-price manipulation, sandwichable operations, incentive
+  misalignment (is honest behavior the profitable strategy?), griefing at
+  scale.
+- Economic conclusions are judgment, not tool output: SEC-ECON-001 is
+  `verification: manual` with `human_review_required: true`. Your analysis
+  enters as `--analysis` evidence; a named human must accept it via
+  `--review-file`/`--reviewed-by`. Do not present economic safety as settled
+  without that review.
+- Where a manipulation is possible but unprofitable, show the arithmetic
+  (attack cost vs. extractable value) in the analysis note; where it is
+  accepted, it belongs in the threat model as `accepted_risk`.

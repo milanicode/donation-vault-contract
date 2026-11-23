@@ -1,0 +1,22 @@
+---
+description: Upgradeability and initialization security — when working with proxies, initializers, storage layout, or upgrade mechanisms
+alwaysApply: false
+---
+
+# Upgradeability
+
+Applies when `features.is_upgradeable: true` (see SEC-UPGRADE-001).
+
+- Every initializer: protected against re-initialization AND against
+  front-running (who may call it, and what happens between deploy and init?).
+  Implementations disable their own initializers in the constructor.
+- Storage layout is append-only across upgrades: never reorder, retype, or
+  remove variables; respect gaps. Verify layout compatibility before any
+  upgrade, and record the verification output as check evidence.
+- Upgrade authority is a critical asset: it belongs in the threat model
+  (asset + actor + threats), in TRUST-MODEL.md (worst case if compromised),
+  and behind the strongest available control (multisig/timelock).
+- Tests to demand: re-init reverts, unauthorized init reverts, unauthorized
+  upgrade reverts, state survives an upgrade round-trip.
+- Record via `security-check SEC-UPGRADE-001 --analysis <initializer-inventory>
+  --author agent:<you>` — the automated part alone does not satisfy the check.

@@ -1,0 +1,86 @@
+schema_version: "1.0"
+
+invariants:
+  - id: INV-001
+    statement: While owner has not withdrawn, vault ETH covers outstanding deposited balances
+    expression: "!ownerWithdrawn => address(vault).balance >= sum(deposited[actors])"
+    requirements: [REQ-002, REQ-005]
+    scope:
+      contracts: [src/DonationVault.sol]
+      functions: ["deposit()", "withdraw()", "claimRefund()"]
+    tests:
+      - kind: invariant
+        path: test/Invariants.t.sol
+        identifier: invariant_claimableFundsCovered
+      - kind: unit
+        path: test/DonationVault.t.sol
+        identifier: testFuzz_DepositTracksAccounting
+
+  - id: INV-002
+    statement: Outstanding deposited amounts never exceed lifetime totalDeposits
+    expression: "sum(deposited[actors]) <= totalDeposits"
+    requirements: [REQ-002]
+    scope:
+      contracts: [src/DonationVault.sol]
+      functions: ["deposit()", "claimRefund()"]
+    tests:
+      - kind: invariant
+        path: test/Invariants.t.sol
+        identifier: invariant_outstandingNeverExceedsTotalDeposits
+      - kind: unit
+        path: test/DonationVault.t.sol
+        identifier: testBothDonorsCanRefundIndependently
+
+  - id: INV-003
+    statement: Non-owners cannot withdraw
+    expression: "withdraw reverts unless msg.sender == owner"
+    requirements: [REQ-001]
+    scope:
+      contracts: [src/DonationVault.sol]
+      functions: ["withdraw()"]
+    tests:
+      - kind: unit
+        path: test/DonationVault.t.sol
+        identifier: testWithdrawRevertsForNonOwner
+      - kind: exploit_regression
+        path: test/exploits/AccessControl.t.sol
+        identifier: test_AccessControlUnauthorizedWithdrawReverts
+
+  - id: INV-004
+    statement: Owner withdraw implies the campaign goal was met
+    expression: "ownerWithdrawn => totalDeposits >= goal"
+    requirements: [REQ-001]
+    scope:
+      contracts: [src/DonationVault.sol]
+      functions: ["withdraw()"]
+    tests:
+      - kind: invariant
+        path: test/Invariants.t.sol
+        identifier: invariant_ownerWithdrawnImpliesGoalMet
+
+  - id: INV-005
+    statement: Claim rights are cleared before external ETH transfer (CEI)
+    expression: "ownerWithdrawn set / deposited[user]=0 before call{value}"
+    requirements: [REQ-003]
+    scope:
+      contracts: [src/DonationVault.sol]
+      functions: ["withdraw()", "claimRefund()"]
+    tests:
+      - kind: exploit_regression
+        path: test/exploits/Reentrancy.t.sol
+        identifier: test_ReentrantWithdrawDoesNotOverDrain
+      - kind: unit
+        path: test/DonationVault.t.sol
+        identifier: testWithdrawRevertsWhenAlreadyWithdrawn
+
+  - id: INV-006
+    statement: Deposits are rejected at or after endTime
+    expression: "deposit reverts when block.timestamp >= endTime"
+    requirements: [REQ-004]
+    scope:
+      contracts: [src/DonationVault.sol]
+      functions: ["deposit()"]
+    tests:
+      - kind: unit
+        path: test/DonationVault.t.sol
+        identifier: testDepositRevertsWhenCampaignClosed

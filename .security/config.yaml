@@ -1,0 +1,41 @@
+# Project security configuration — validated against schemas/config.schema.json.
+config_version: "1.0"
+framework_version: "0.2.0"
+
+project:
+  name: "donation-vault"
+  description: "Timed ETH donation campaign with funding goal and failed-campaign refunds"
+  contracts_root: src
+
+features:
+  handles_ether: true
+  handles_erc20: false
+  handles_erc721: false
+  handles_erc1155: false
+  handles_erc777: false
+  uses_oracle: false
+  is_upgradeable: false
+  uses_proxy: false
+  has_access_control: true
+  has_economic_mechanism: true
+  # Small campaign state machine (open / success / fail), not complex DeFi logic.
+  has_complex_business_logic: false
+  uses_external_calls: true
+  uses_flashloans: false
+  uses_signatures: false
+  uses_permit: false
+  uses_governance: false
+  has_timelock: false
+  integrates_arbitrary_tokens: false
+  uses_erc4626: false
+  accepts_arbitrary_calldata: false
+  has_agent_integration: false
+  supports_eip7702_callers: false
+
+policy:
+  # Exploratory portfolio run: allow dirty evidence while campaign redesign is uncommitted.
+  fail_on: medium
+  allow_blocked_below: none
+  allow_dirty_evidence: true
+  required_artifacts: [threat-model, invariants]
+  min_traceability_severity: high

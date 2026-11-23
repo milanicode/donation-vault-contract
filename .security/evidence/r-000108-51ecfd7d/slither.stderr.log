@@ -1,0 +1,14 @@
+
+Detector: reentrancy-events
+Reentrancy in DonationVault.claimRefund() (src/DonationVault.sol#109-122):
+	External calls:
+	- (sent,None) = address(msg.sender).call{value: amount}() (src/DonationVault.sol#118)
+	Event emitted after the call(s):
+	- Refund(msg.sender,amount) (src/DonationVault.sol#121)
+Reentrancy in DonationVault.withdraw() (src/DonationVault.sol#94-106):
+	External calls:
+	- (sent,None) = address(owner).call{value: amount}() (src/DonationVault.sol#102)
+	Event emitted after the call(s):
+	- Withdraw(owner,amount) (src/DonationVault.sol#105)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-4
+. analyzed (1 contracts with 4 detectors), 2 result(s) found

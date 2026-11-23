@@ -1,0 +1,26 @@
+---
+description: Security testing standards for Solidity sources and tests
+globs: src/**/*.sol,test/**/*.sol
+alwaysApply: false
+---
+
+# Security testing
+
+Test plan lives in `.security/TEST-PLAN.md`; conventions in
+`integrations/foundry/README.md`.
+
+- Every security requirement needs adversarial tests, not just happy paths:
+  unauthorized-caller reverts (`test_RevertWhen_*`), boundary values
+  (0, 1 wei, max), first/last-actor scenarios.
+- Run tests through the framework so they become evidence:
+  `security-check SEC-TEST-002` (suite), `SEC-TEST-003` (invariants) — not
+  just bare `forge test`, which proves nothing to the ledger.
+- Never weaken, skip, or delete a failing test to make a check pass. A
+  failing security test is a finding: record it via the relevant
+  `security-check` (the runner creates FND-* entries) and tell the user.
+- Exploit tests live in `test/exploits/` and are permanent
+  (`methodology/ADVERSARIAL-ANALYSIS.md`). Removing one invalidates
+  SEC-TEST-004.
+- Tests referenced by `.security/invariants.yaml` must keep their identifiers
+  stable; renaming breaks traceability (SEC-PROC-003 will fail and point at
+  the dangling reference).

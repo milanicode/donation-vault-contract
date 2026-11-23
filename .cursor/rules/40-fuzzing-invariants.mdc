@@ -1,0 +1,25 @@
+---
+description: Fuzzing and invariant testing conventions
+globs: test/**/*.sol,.security/invariants.yaml
+alwaysApply: false
+---
+
+# Fuzzing & invariant testing
+
+Method: `methodology/INVARIANT-METHODOLOGY.md`. Foundry specifics:
+`integrations/foundry/README.md`.
+
+- Every invariant in `.security/invariants.yaml` needs at least one
+  `invariant_*` stateful test; the campaign is recorded via
+  `security-check SEC-TEST-003`.
+- Use handler contracts: constrain the fuzzer to valid-but-adversarial
+  sequences; track ghost totals for the invariant to compare against. Never
+  constrain so tightly that attacks become unreachable — the handler must
+  allow multiple actors, reentrant callers, and boundary amounts.
+- Fuzz tests (`testFuzz_*`) for single-function properties: round-trip
+  non-profitability, monotonicity, bounds.
+- When a campaign finds a counterexample: FIRST freeze it as an
+  `exploit_regression` test in `test/exploits/`, THEN fix, so the fix is
+  proven against the real sequence.
+- Campaign parameters (runs/depth in `foundry.toml`) are part of the
+  evidence; do not lower them to make a slow failure disappear.

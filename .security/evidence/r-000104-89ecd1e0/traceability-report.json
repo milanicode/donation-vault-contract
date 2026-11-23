@@ -1,0 +1,112 @@
+{
+  "checked_at": "2026-11-15T21:09:01Z",
+  "min_traceability_severity": "high",
+  "chains": [
+    {
+      "threat": "THR-001",
+      "requirement": "REQ-002",
+      "invariant": "INV-001",
+      "tests": [
+        "test/Invariants.t.sol::invariant_claimableFundsCovered",
+        "test/DonationVault.t.sol::testFuzz_DepositTracksAccounting"
+      ]
+    },
+    {
+      "threat": "THR-001",
+      "requirement": "REQ-002",
+      "invariant": "INV-002",
+      "tests": [
+        "test/Invariants.t.sol::invariant_outstandingNeverExceedsTotalDeposits",
+        "test/DonationVault.t.sol::testBothDonorsCanRefundIndependently"
+      ]
+    },
+    {
+      "threat": "THR-001",
+      "requirement": "REQ-003",
+      "invariant": "INV-005",
+      "tests": [
+        "test/exploits/Reentrancy.t.sol::test_ReentrantWithdrawDoesNotOverDrain",
+        "test/DonationVault.t.sol::testWithdrawRevertsWhenAlreadyWithdrawn"
+      ]
+    },
+    {
+      "threat": "THR-001",
+      "requirement": "REQ-005",
+      "invariant": "INV-001",
+      "tests": [
+        "test/Invariants.t.sol::invariant_claimableFundsCovered",
+        "test/DonationVault.t.sol::testFuzz_DepositTracksAccounting"
+      ]
+    },
+    {
+      "threat": "THR-002",
+      "requirement": "REQ-001",
+      "invariant": "INV-003",
+      "tests": [
+        "test/DonationVault.t.sol::testWithdrawRevertsForNonOwner",
+        "test/exploits/AccessControl.t.sol::test_AccessControlUnauthorizedWithdrawReverts"
+      ]
+    },
+    {
+      "threat": "THR-002",
+      "requirement": "REQ-001",
+      "invariant": "INV-004",
+      "tests": [
+        "test/Invariants.t.sol::invariant_ownerWithdrawnImpliesGoalMet"
+      ]
+    },
+    {
+      "threat": "THR-003",
+      "requirement": "REQ-001",
+      "invariant": "INV-003",
+      "tests": [
+        "test/DonationVault.t.sol::testWithdrawRevertsForNonOwner",
+        "test/exploits/AccessControl.t.sol::test_AccessControlUnauthorizedWithdrawReverts"
+      ]
+    },
+    {
+      "threat": "THR-003",
+      "requirement": "REQ-001",
+      "invariant": "INV-004",
+      "tests": [
+        "test/Invariants.t.sol::invariant_ownerWithdrawnImpliesGoalMet"
+      ]
+    },
+    {
+      "threat": "THR-003",
+      "requirement": "REQ-002",
+      "invariant": "INV-001",
+      "tests": [
+        "test/Invariants.t.sol::invariant_claimableFundsCovered",
+        "test/DonationVault.t.sol::testFuzz_DepositTracksAccounting"
+      ]
+    },
+    {
+      "threat": "THR-003",
+      "requirement": "REQ-002",
+      "invariant": "INV-002",
+      "tests": [
+        "test/Invariants.t.sol::invariant_outstandingNeverExceedsTotalDeposits",
+        "test/DonationVault.t.sol::testBothDonorsCanRefundIndependently"
+      ]
+    },
+    {
+      "threat": "THR-004",
+      "requirement": "REQ-004",
+      "invariant": "INV-006",
+      "tests": [
+        "test/DonationVault.t.sol::testDepositRevertsWhenCampaignClosed"
+      ]
+    },
+    {
+      "threat": "THR-005",
+      "accepted_risk": true
+    }
+  ],
+  "violations": [],
+  "counts": {
+    "threats": 5,
+    "requirements": 5,
+    "invariants": 6
+  }
+}

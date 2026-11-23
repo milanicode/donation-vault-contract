@@ -1,0 +1,23 @@
+---
+alwaysApply: false
+---
+
+# Final review phase (invoke with @90-final-review)
+
+Release/milestone discipline — `methodology/REVIEW-METHODOLOGY.md` §Final
+review.
+
+1. `security-status` — every applicable check must be PASS or justified
+   NOT_APPLICABLE, with zero staleness. Anything else: stop and resolve or
+   report.
+2. Checks awaiting human review: list them explicitly for the user with what
+   the reviewer must do (`--review-file`/`--reviewed-by`). You cannot
+   substitute for the human.
+3. `security-check-final --exec` — the deep gate: re-executes automated
+   evidence. This is the ONLY authority on "security verification complete".
+4. `security-report -o SECURITY-REPORT.md` — generate and read it. The "Not
+   verified" section must be consciously acceptable; walk the user through it.
+5. Report the gate verdict verbatim. If it fails, list each E-code error and a
+   remediation path. Never soften a failed gate into "mostly done" — and never
+   phrase your summary as "the contract is secure": state what was verified,
+   at which commit, with what evidence.

@@ -1,0 +1,30 @@
+---
+alwaysApply: false
+---
+
+# Adversarial review phase (invoke with @50-adversarial-review)
+
+You are now the attacker. Method: `methodology/ADVERSARIAL-ANALYSIS.md`.
+
+- Assume the implementation IS vulnerable; your job is to prove it, not to
+  confirm it works.
+- Targets: every invariant in `.security/invariants.yaml` and every
+  requirement in the threat model — plus implicit assumptions (ordering,
+  atomicity, caller identity, token behavior).
+- Capabilities: multiple accounts, attacking contracts (reentrancy),
+  transaction ordering, flashloan-scale capital, boundary values.
+- For each target, write the attack sequence BEFORE testing it, with expected
+  profit/damage. Then make it executable in `test/exploits/`.
+- Prefer starting from skeletons in the framework library
+  `integrations/foundry/attack-patterns/` (see its README for family → check
+  ID mapping). Copy into the project; do not leave `vm.skip(true)` in final
+  regressions.
+- Attack succeeds → finding: record via the matching `security-check` (runner
+  assigns FND-*), keep the test as proof, report to the user immediately.
+- Attack fails → keep the test as a regression; record your attempt inventory
+  as analysis evidence:
+  `security-check <ID> --analysis attack-notes.md --author agent:<you>`.
+- Your notes must list ATTEMPTED sequences, not just conclusions. "No exploit
+  found" without the attempt inventory is not evidence of anything.
+- Never weaken an attack so it fails. Record the strongest version you can
+  build.

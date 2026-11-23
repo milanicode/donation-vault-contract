@@ -1,0 +1,100 @@
+schema_version: "1.0"
+
+architecture:
+  summary: >
+    Timed ETH donation campaign. Donors deposit only before endTime. After the
+    deadline, if totalDeposits >= goal the owner withdraws the recorded pot once;
+    otherwise each donor claimRefunds their own deposited amount. No proportional
+    balance rewriting and no depositor iteration. Plain ETH transfers are rejected.
+  contracts:
+    - name: DonationVault
+      path: src/DonationVault.sol
+      role: sole campaign contract holding ETH and per-donor contribution records
+
+assets:
+  - id: AST-001
+    description: Campaign ETH held by DonationVault (recorded via deposit)
+    holder: DonationVault (withdraw/refund limited to recorded deposited amounts)
+
+actors:
+  - id: ACT-001
+    description: Depositor (any address)
+    trusted: false
+    capabilities:
+      - call deposit() with positive msg.value while campaign open
+      - call claimRefund() after a failed campaign for their own deposited amount
+      - observe deposited, totalDeposits, goal, endTime
+  - id: ACT-002
+    description: Campaign owner (deployer)
+    trusted: true
+    capabilities:
+      - call withdraw() once after successful campaign
+      - receive withdrawn ETH
+  - id: ACT-003
+    description: External attacker (EOA or contract)
+    trusted: false
+    capabilities:
+      - deposit, attempt reentrancy on withdraw/refund
+      - force ETH into the vault via selfdestruct
+      - attempt unauthorized withdraw
+
+trust_boundaries:
+  - id: TB-001
+    description: Untrusted callers vs campaign accounting and owner-gated withdraw
+  - id: TB-002
+    description: Outbound ETH transfer in withdraw/claimRefund (control may pass to recipient)
+
+attacker_capabilities:
+  - controls multiple accounts and contracts (can reenter)
+  - can order/insert transactions within a block (MEV)
+  - can force ETH into the contract without calling deposit
+  - owner key compromise is out of band (operational)
+
+threats:
+  - id: THR-001
+    description: Attacker reenters during withdraw or claimRefund and drains more ETH than accounting allows
+    severity: critical
+    assets: [AST-001]
+    actors: [ACT-003]
+  - id: THR-002
+    description: Non-owner withdraws campaign funds
+    severity: critical
+    assets: [AST-001]
+    actors: [ACT-003]
+  - id: THR-003
+    description: Owner withdraws after a failed campaign, or donor refunds after a successful campaign
+    severity: critical
+    assets: [AST-001]
+    actors: [ACT-002, ACT-001]
+  - id: THR-004
+    description: Deposits accepted after endTime, expanding the pot outside the campaign window
+    severity: high
+    assets: [AST-001]
+    actors: [ACT-001, ACT-003]
+  - id: THR-005
+    description: Owner key compromised and successful-campaign funds withdrawn maliciously
+    severity: critical
+    assets: [AST-001]
+    actors: [ACT-002]
+    accepted_risk:
+      justification: >
+        Single-owner EOA trust after a successful raise is an explicit portfolio demo
+        design; production should use a multisig. Documented in TRUST-MODEL.md.
+      approved_by: agent:cursor
+
+requirements:
+  - id: REQ-001
+    statement: Only the owner can successfully call withdraw, and only after endTime when goal is met and not already withdrawn
+    threats: [THR-002, THR-003]
+  - id: REQ-002
+    statement: Outstanding deposited balances never exceed lifetime totalDeposits; claimable ETH covers outstanding deposits until owner withdraws
+    threats: [THR-001, THR-003]
+  - id: REQ-003
+    statement: Effects that clear claim rights (ownerWithdrawn or deposited[user]=0) happen before external ETH calls (CEI)
+    threats: [THR-001]
+  - id: REQ-004
+    statement: deposit rejects calls at or after endTime and rejects zero value
+    threats: [THR-004]
+  - id: REQ-005
+    statement: Forced/unrecorded ETH cannot be withdrawn beyond totalDeposits / deposited amounts
+    threats: [THR-001]

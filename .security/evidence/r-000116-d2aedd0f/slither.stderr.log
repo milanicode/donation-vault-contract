@@ -1,0 +1,45 @@
+
+Detector: reentrancy-events
+Reentrancy in DonationVault.claimRefund() (src/DonationVault.sol#109-122):
+	External calls:
+	- (sent,None) = address(msg.sender).call{value: amount}() (src/DonationVault.sol#118)
+	Event emitted after the call(s):
+	- Refund(msg.sender,amount) (src/DonationVault.sol#121)
+Reentrancy in DonationVault.withdraw() (src/DonationVault.sol#94-106):
+	External calls:
+	- (sent,None) = address(owner).call{value: amount}() (src/DonationVault.sol#102)
+	Event emitted after the call(s):
+	- Withdraw(owner,amount) (src/DonationVault.sol#105)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-4
+
+Detector: timestamp
+DonationVault.constructor(uint256,uint256) (src/DonationVault.sol#70-76) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(endTime_ > block.timestamp,End time not future) (src/DonationVault.sol#72)
+DonationVault.deposit() (src/DonationVault.sol#82-90) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(block.timestamp < endTime,Campaign closed) (src/DonationVault.sol#83)
+DonationVault.withdraw() (src/DonationVault.sol#94-106) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(block.timestamp >= endTime,Campaign open) (src/DonationVault.sol#95)
+DonationVault.claimRefund() (src/DonationVault.sol#109-122) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(block.timestamp >= endTime,Campaign open) (src/DonationVault.sol#110)
+DonationVault.isOpen() (src/DonationVault.sol#128-130) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp < endTime (src/DonationVault.sol#129)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#block-timestamp
+
+Detector: low-level-calls
+Low level call in DonationVault.withdraw() (src/DonationVault.sol#94-106):
+	- (sent,None) = address(owner).call{value: amount}() (src/DonationVault.sol#102)
+Low level call in DonationVault.claimRefund() (src/DonationVault.sol#109-122):
+	- (sent,None) = address(msg.sender).call{value: amount}() (src/DonationVault.sol#118)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#low-level-calls
+
+Detector: immutable-states
+DonationVault.endTime (src/DonationVault.sol#39) should be immutable 
+DonationVault.goal (src/DonationVault.sol#36) should be immutable 
+DonationVault.owner (src/DonationVault.sol#33) should be immutable 
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#state-variables-that-could-be-declared-immutable
+. analyzed (1 contracts with 102 detectors), 12 result(s) found

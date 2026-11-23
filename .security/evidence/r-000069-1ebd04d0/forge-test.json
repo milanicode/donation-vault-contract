@@ -1,0 +1,1 @@
+{"test/security/ChecklistCoverage.t.sol:ChecklistCoverageTest":{"duration":"454µs 391ns","test_results":{"test_TxOriginNotUsedForAuth()":{"status":"Success","reason":null,"counterexample":null,"logs":[],"decoded_logs":[],"kind":{"Unit":{"gas":7772}},"traces":[],"labeled_addresses":{},"duration":"67µs 559ns","breakpoints":{},"gas_snapshots":{}}},"warnings":[]}}

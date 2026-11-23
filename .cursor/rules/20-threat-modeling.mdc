@@ -1,0 +1,26 @@
+---
+description: Threat modeling — when creating or updating the threat model, defining assets/actors/threats/requirements, or when architecture changes
+alwaysApply: false
+---
+
+# Threat modeling
+
+Method: `methodology/THREAT-MODELING.md`. Output:
+`.security/threat-model.yaml` (schema: `schemas/threat-model.schema.json`)
+plus narrative `.security/THREAT-MODEL.md`.
+
+- Derive in order: architecture → assets → actors → trust boundaries →
+  attacker capabilities → threats → requirements. Do not start from a generic
+  vulnerability list.
+- Default attacker: multiple accounts, attacking contracts, transaction
+  ordering, flashloan-scale capital. Weakening this needs written
+  justification.
+- Every threat: a concrete attack narrative with severity
+  (`specification/SEVERITY.yaml`) judged by impact, linked to assets/actors by
+  ID. IDs (AST/ACT/TB/THR/REQ) are permanent — never renumber.
+- Every high+ threat must end in requirements → invariants → tests or an
+  explicit `accepted_risk` with a named human approver. You cannot approve
+  accepted risks yourself.
+- Validate your work: `security-check SEC-PROC-001` then `SEC-PROC-003`.
+- When code architecture changes (new contract, new role, new external
+  dependency), the threat model updates FIRST, then the code review.

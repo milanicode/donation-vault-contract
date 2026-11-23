@@ -1,0 +1,19 @@
+# Compiler files
+cache/
+out/
+
+# Ignores development broadcast logs
+!/broadcast
+/broadcast/*/31337/
+/broadcast/**/dry-run/
+
+# Docs
+docs/
+
+# Dotenv file. .env.production is public (chain id and a keyless RPC) and is committed.
+.env
+.env.local
+frontend/.env.local
+frontend/node_modules/
+frontend/dist/
+frontend/.vercel/

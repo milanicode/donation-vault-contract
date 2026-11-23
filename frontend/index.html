@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#f7f5f0" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#101412" media="(prefers-color-scheme: dark)" />
+    <meta
+      name="description"
+      content="MilaniCode Sepolia Fundraiser. Campaigns go ahead only when they are fully funded. Contributions are returned if a goal is missed."
+    />
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+    <title>MilaniCode Sepolia Fundraiser</title>
+    <script>
+      ;(function () {
+        var stored = null
+        try {
+          stored = localStorage.getItem('donation-vault-theme')
+        } catch (e) {}
+        var theme =
+          stored === 'light' || stored === 'dark'
+            ? stored
+            : window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light'
+        document.documentElement.setAttribute('data-theme', theme)
+        document.documentElement.style.colorScheme = theme
+      })()
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

@@ -1,0 +1,25 @@
+[profile.default]
+src = "src"
+out = "out"
+libs = ["lib"]
+
+# Compilador Solidity
+auto_detect_solc = true          # Deixe true (padrão do Foundry). Ele respeita o pragma ^0.8.34 que você colocou
+# Não coloque "solc_version" ou "solc" aqui para evitar conflitos
+
+# Otimização (boa prática)
+optimizer = true
+optimizer_runs = 200
+
+# Remappings: add paths for libs installed with `forge install` inside the Foundry Docker container
+# (see `docker/docker-compose.yml`). Do not rely on npm or host-side installs.
+# After: forge install OpenZeppelin/openzeppelin-contracts --no-commit
+remappings = ["@openzeppelin/contracts/=lib/openzeppelin-contracts/contracts/"]
+via_ir = false                   # Deixe false no início (evita complicações desnecessárias)
+
+# Configurações de teste (opcional, mas recomendado)
+[fuzz]
+runs = 100
+
+[invariant]
+runs = 10

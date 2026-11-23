@@ -1,0 +1,63 @@
+{
+  "checked_at": "2026-09-15T04:04:38Z",
+  "min_traceability_severity": "high",
+  "chains": [
+    {
+      "threat": "THR-001",
+      "requirement": "REQ-004",
+      "invariant": "INV-001",
+      "tests": [
+        "test/Invariants.t.sol::invariant_balanceCoversTotalDeposits",
+        "test/DonationVault.t.sol::testFuzzDepositTracksAccounting"
+      ]
+    },
+    {
+      "threat": "THR-002",
+      "requirement": "REQ-001",
+      "invariant": "INV-003",
+      "tests": [
+        "test/DonationVault.t.sol::testWithdrawRevertsForNonOwner",
+        "test/exploits/AccessControl.t.sol::test_UnauthorizedWithdrawReverts"
+      ]
+    },
+    {
+      "threat": "THR-003",
+      "requirement": "REQ-002",
+      "invariant": "INV-002",
+      "tests": [
+        "test/Invariants.t.sol::invariant_sumBalancesEqualsTotalDeposits",
+        "test/DonationVault.t.sol::testWithdrawUpdatesBalancesProportionallyAndEmitsEvent"
+      ]
+    },
+    {
+      "threat": "THR-003",
+      "requirement": "REQ-004",
+      "invariant": "INV-001",
+      "tests": [
+        "test/Invariants.t.sol::invariant_balanceCoversTotalDeposits",
+        "test/DonationVault.t.sol::testFuzzDepositTracksAccounting"
+      ]
+    },
+    {
+      "threat": "THR-003",
+      "requirement": "REQ-005",
+      "invariant": "INV-001",
+      "tests": [
+        "test/Invariants.t.sol::invariant_balanceCoversTotalDeposits",
+        "test/DonationVault.t.sol::testFuzzDepositTracksAccounting"
+      ]
+    },
+    {
+      "threat": "THR-005",
+      "accepted_risk": true
+    }
+  ],
+  "violations": [
+    "REQ-003 (mitigates THR-001) is realized by no invariant"
+  ],
+  "counts": {
+    "threats": 5,
+    "requirements": 5,
+    "invariants": 3
+  }
+}

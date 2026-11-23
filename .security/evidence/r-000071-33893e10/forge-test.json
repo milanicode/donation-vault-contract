@@ -1,0 +1,1 @@
+{"test/security/ChecklistCoverage.t.sol:ChecklistCoverageTest":{"duration":"613µs 342ns","test_results":{"test_PauseNotPresent()":{"status":"Success","reason":null,"counterexample":null,"logs":[],"decoded_logs":[],"kind":{"Unit":{"gas":7715}},"traces":[],"labeled_addresses":{},"duration":"79µs 475ns","breakpoints":{},"gas_snapshots":{}}},"warnings":[]}}

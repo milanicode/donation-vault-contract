@@ -1,0 +1,1 @@
+{"test/exploits/Callback.t.sol:CallbackExploitTest":{"duration":"488µs 600ns","test_results":{"test_CallbackCannotDepositViaReceive()":{"status":"Success","reason":null,"counterexample":null,"logs":[],"decoded_logs":[],"kind":{"Unit":{"gas":491462}},"traces":[],"labeled_addresses":{},"duration":"157µs 300ns","breakpoints":{},"gas_snapshots":{}}},"warnings":[]}}

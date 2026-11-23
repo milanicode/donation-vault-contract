@@ -1,0 +1,13 @@
+{
+  "checked_at": "2026-11-15T21:08:49Z",
+  "globs": [
+    "src/**/*.sol"
+  ],
+  "files": [
+    {
+      "path": "src/DonationVault.sol",
+      "lines": null,
+      "sha256": "716c8c1152ce10491853d9a2d8ec1c7752481cf2f5a91006507fa69d51a0747e"
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+---
+description: End-to-end security verification workflow — when starting security work, planning verification, or asking what to do next on a security-framework project
+alwaysApply: false
+---
+
+# Security workflow
+
+Follow `methodology/SECURITY-METHODOLOGY.md`. Command sequence:
+
+1. `security-status` — always start here; it shows the derived state of every
+   check, including staleness. Trust it over your memory of the session.
+2. If the project is new: `security-init`, then complete
+   `.security/config.yaml` (feature flags honestly — they drive which checks
+   apply) and the threat model before any other security work.
+3. Work the phases in order: threat model → invariants → tests → static
+   analysis → adversarial phase → gate. Each phase's outputs are the next
+   phase's inputs.
+4. Record everything through `security-check`:
+   - automated checks: `security-check SEC-TEST-002`
+   - with your analysis: `security-check SEC-REENT-001 --analysis notes.md --author agent:<you>`
+   - needing a human: tell the user exactly which checks await
+     `--review-file`/`--reviewed-by` and why.
+5. `security-check --affected` after changes; `security-check --all` for a
+   full pass.
+6. Finish with `security-check-final`. Report its verdict verbatim — including
+   failure.
+
+Never edit `.security/ledger/` or `.security/evidence/` by hand: the gate
+detects it (E008) and the ledger becomes worthless.

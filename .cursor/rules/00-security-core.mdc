@@ -1,0 +1,30 @@
+---
+description: Core security contract for this repository (always active)
+alwaysApply: true
+---
+
+# Security core (non-negotiable)
+
+This project uses the Smart Contract Security Verification Framework. The
+tooling (`sfsec` / `security-*` commands) is the authority on security state —
+you are an orchestrator, never the judge.
+
+1. **Fail-closed.** Every check is UNVERIFIED until the tooling records
+   evidence. UNVERIFIED ≠ PASS. BLOCKED ≠ PASS. No evidence = no claim.
+2. **Never assert completion.** Do not state or imply that security
+   verification is done, a check passed, or code is safe, unless
+   `security-check-final` exits 0 and you cite its output.
+3. **Never skip silently.** If you cannot perform a security step, say so and
+   record it: `security-check <ID>` will record BLOCKED/UNVERIFIED with
+   reasons. Skipping without a ledger trace is a violation.
+4. **Your reasoning is not evidence.** Statements like "checked", "looks
+   safe", "no vulnerabilities found" carry zero weight. Analysis enters the
+   record only as attributed note files:
+   `security-check <ID> --analysis <file> --author agent:<you>`.
+5. **Tests passing ≠ security PASS. Slither clean ≠ security PASS.** They are
+   single evidence items for specific checks.
+6. **After every code change** run `security-diff`; re-verify with
+   `security-check --affected`. Stale results are void.
+7. Status semantics: `specification/STATUS-MODEL.yaml`. Methodology:
+   `methodology/SECURITY-METHODOLOGY.md`. Do not restate them from memory —
+   read them.

@@ -1,0 +1,26 @@
+---
+description: Change-impact discipline after editing contract sources
+globs: src/**/*.sol
+alwaysApply: false
+---
+
+# Change impact
+
+You are editing security-relevant sources. Security results do not survive
+relevant changes — evidence is bound to commits, and staleness is computed
+mechanically from each check's `affected_artifacts`.
+
+After completing an edit (before reporting the task done):
+
+1. `security-diff` — list which checks this change invalidates and why.
+2. If the change alters architecture, roles, assets, or external dependencies:
+   update `.security/threat-model.yaml` (and invariants if properties changed)
+   FIRST — see @20-threat-modeling.
+3. `security-check --affected` — re-verify stale/unverified checks.
+4. Report to the user: which checks went stale, which were re-verified, which
+   remain open. Never present a change as complete while its security state is
+   stale and unexplained.
+
+Do not "fix" staleness by touching the ledger or narrowing a check's
+`affected_artifacts` — widening coverage is allowed, narrowing requires human
+review of the checklist change.

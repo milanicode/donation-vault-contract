@@ -1,0 +1,1 @@
+{"test/security/ChecklistCoverage.t.sol:ChecklistCoverageTest":{"duration":"482µs 167ns","test_results":{"test_OwnershipImmutableSingleKeyAccepted()":{"status":"Success","reason":null,"counterexample":null,"logs":[],"decoded_logs":[],"kind":{"Unit":{"gas":7771}},"traces":[],"labeled_addresses":{},"duration":"74µs 709ns","breakpoints":{},"gas_snapshots":{}}},"warnings":[]}}

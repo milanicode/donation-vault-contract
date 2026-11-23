@@ -1,0 +1,5 @@
+
+Detector: uninitialized-local
+DonationVault.withdraw(uint256).allocated (src/DonationVault.sol#84) is a local variable never initialized
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#uninitialized-local-variables
+. analyzed (4 contracts with 4 detectors), 1 result(s) found
